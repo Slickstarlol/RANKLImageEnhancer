@@ -1,11 +1,14 @@
-clc; clear all; close all;
+
+function EdgeDetectionKentstar(blue, green, red)
+
+
 
 figure;
 
 % Step 1: Input – Read the TIFF images (e.g., REDCHANNEL.tif, GREENCHANNEL.tif, BLUECHANNEL.tif)
-input_image_blue = importdata("BLUECHANNEL.tif");
-input_image_green = importdata("GREENCHANNEL.tif");
-input_image_red = importdata("REDCHANNEL.tif");
+input_image_blue = importdata(blue);
+input_image_green = importdata(green);
+input_image_red = importdata(red);
 
 % Subplot 1: Original Blue Channel
 subplot(3, 3, 1);
@@ -142,3 +145,5 @@ title('Filtered Red Channel');
 subplot(3, 3, 9);
 imshow(red_image);
 title('Edge-Detected Red Channel');
+
+end
