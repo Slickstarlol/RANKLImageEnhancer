@@ -104,10 +104,6 @@ reverted_rgb_image(:, :, 1) = output_image_red;   % Red channel
 reverted_rgb_image(:, :, 2) = output_image_green; % Green channel
 reverted_rgb_image(:, :, 3) = output_image_blue;  % Blue channel
 
-
-
-% Step 10: Create a figure with 9 subplots (3 rows x 3 columns)
-
 % Step 10: Create a figure with 9 subplots (3 rows x 3 columns)
 
 % Subplot 2: Filtered Blue Channel
