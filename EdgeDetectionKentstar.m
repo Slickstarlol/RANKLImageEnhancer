@@ -1,7 +1,4 @@
-
 function EdgeDetectionKentstar(blue, green, red)
-
-
 
 figure;
 
@@ -10,18 +7,16 @@ input_image_blue = importdata(blue);
 input_image_green = importdata(green);
 input_image_red = importdata(red);
 
-% Subplot 1: Original Blue Channel
-subplot(3, 3, 1);
+% Display the original images
+subplot(3, 4, 1);
 imshow(input_image_blue, []);
 title('Original Blue Channel');
 
-% Subplot 4: Original Green Channel
-subplot(3, 3, 4);
+subplot(3, 4, 5);
 imshow(input_image_green, []);
 title('Original Green Channel');
 
-% Subplot 7: Original Red Channel
-subplot(3, 3, 7);
+subplot(3, 4, 9);
 imshow(input_image_red, []);
 title('Original Red Channel');
 
@@ -91,8 +86,6 @@ output_image_green(output_image_green == round(thresholdValue)) = 0;
 output_image_red = max(filtered_image_red, thresholdValue);
 output_image_red(output_image_red == round(thresholdValue)) = 0;
 
-% Step 9: Create RGB images for each channel (Teal, Green, Red)
-
 % Normalize the output images to [0, 255] if necessary
 output_image_blue = uint8(output_image_blue);
 output_image_green = uint8(output_image_green);
@@ -107,47 +100,67 @@ reverted_rgb_image(:, :, 1) = output_image_red;   % Red channel
 reverted_rgb_image(:, :, 2) = output_image_green; % Green channel
 reverted_rgb_image(:, :, 3) = output_image_blue;  % Blue channel
 
-% Step 10: Create a figure with 9 subplots (3 rows x 3 columns)
+% Colored edge-detection images
+[rows, cols] = size(output_image_blue);
+teal_image = zeros(rows, cols, 3, 'uint8');
+teal_image(:, :, 2) = uint8(min(output_image_blue * 1.5, 255)); % Green channel
+teal_image(:, :, 3) = uint8(min(output_image_blue * 1.5, 255)); % Blue channel
 
+green_image = zeros(rows, cols, 3, 'uint8');
+green_image(:, :, 2) = uint8(min(output_image_green * 1.5, 255)); % Green channel
+
+red_image = zeros(rows, cols, 3, 'uint8');
+red_image(:, :, 1) = uint8(min(output_image_red * 1.5, 255)); % Red channel
+
+% Display results for each channel in 4 columns
 % Subplot 2: Filtered Blue Channel
-subplot(3, 3, 2);
+subplot(3, 4, 2);
 imshow(filtered_image_blue, []);
 title('Filtered Blue Channel');
 
-% Subplot 3: Edge-Detected Blue Channel (Teal)
-teal_image = zeros(rows, cols, 3, 'uint8'); % Create teal-colored RGB image
-teal_image(:, :, 2) = uint8(min(output_image_blue * 1.5, 255)); % Green channel
-teal_image(:, :, 3) = uint8(min(output_image_blue * 1.5, 255)); % Blue channel
-subplot(3, 3, 3);
+% Subplot 3: Edge-Detected Blue Channel (Grayscale)
+subplot(3, 4, 3);
+imshow(output_image_blue, []);
+title('Edge-Detected Blue (Gray)');
+
+% Subplot 4: Edge-Detected Blue Channel (Colored)
+subplot(3, 4, 4);
 imshow(teal_image);
-title('Edge-Detected Blue Channel');
+title('Edge-Detected Blue (Teal)');
 
 % Subplot 5: Filtered Green Channel
-subplot(3, 3, 5);
+subplot(3, 4, 6);
 imshow(filtered_image_green, []);
 title('Filtered Green Channel');
 
-% Subplot 6: Edge-Detected Green Channel
-green_image = zeros(rows, cols, 3, 'uint8'); % Create green-colored RGB image
-green_image(:, :, 2) = uint8(min(output_image_green * 1.5, 255)); % Green channel
-subplot(3, 3, 6);
-imshow(green_image);
-title('Edge-Detected Green Channel');
+% Subplot 7: Edge-Detected Green Channel (Grayscale)
+subplot(3, 4, 7);
+imshow(output_image_green, []);
+title('Edge-Detected Green (Gray)');
 
-% Subplot 8: Filtered Red Channel
-subplot(3, 3, 8);
+% Subplot 8: Edge-Detected Green Channel (Colored)
+subplot(3, 4, 8);
+imshow(green_image);
+title('Edge-Detected Green (Colored)');
+
+% Subplot 9: Filtered Red Channel
+subplot(3, 4, 10);
 imshow(filtered_image_red, []);
 title('Filtered Red Channel');
 
-% Subplot 9: Edge-Detected Red Channel
-red_image = zeros(rows, cols, 3, 'uint8'); % Create red-colored RGB image
-red_image(:, :, 1) = uint8(min(output_image_red * 1.5, 255)); % Red channel
-subplot(3, 3, 9);
+% Subplot 10: Edge-Detected Red Channel (Grayscale)
+subplot(3, 4, 11);
+imshow(output_image_red, []);
+title('Edge-Detected Red (Gray)');
+
+% Subplot 11: Edge-Detected Red Channel (Colored)
+subplot(3, 4, 12);
 imshow(red_image);
-title('Edge-Detected Red Channel');
+title('Edge-Detected Red (Colored)');
 
 figure;
 % Display the reverted RGB image
 imshow(uint8(reverted_rgb_image));
 title('Reverted RGB Image');
+
 end
