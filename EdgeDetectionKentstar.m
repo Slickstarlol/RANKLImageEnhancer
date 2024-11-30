@@ -89,56 +89,65 @@ output_image_red = max(filtered_image_red, thresholdValue);
 output_image_red(output_image_red == round(thresholdValue)) = 0;
 
 % Step 9: Create RGB images for each channel (Teal, Green, Red)
-scaling_factor = 1.5; % Adjust this factor to change the variation of color
 
-% For blue channel (Teal)
+% Normalize the output images to [0, 255] if necessary
+output_image_blue = uint8(output_image_blue);
+output_image_green = uint8(output_image_green);
+output_image_red = uint8(output_image_red);
+
+% Combine the channels into an RGB image using the original channels for color
 [rows, cols] = size(output_image_blue);
-teal_image = zeros(rows, cols, 3); % Initialize an empty RGB image for blue
-teal_image(:, :, 2) = min(output_image_blue * scaling_factor, 255); % Green channel
-teal_image(:, :, 3) = min(output_image_blue * scaling_factor, 255); % Blue channel
+reverted_rgb_image = zeros(rows, cols, 3); % Initialize the RGB image
 
-% For green channel
-green_image = zeros(rows, cols, 3); % Initialize an empty RGB image for green
-green_image(:, :, 2) = min(output_image_green * scaling_factor, 255); % Green channel
+% Assign each channel's intensity to its respective color
+reverted_rgb_image(:, :, 1) = output_image_red;   % Red channel
+reverted_rgb_image(:, :, 2) = output_image_green; % Green channel
+reverted_rgb_image(:, :, 3) = output_image_blue;  % Blue channel
 
-% For red channel
-red_image = zeros(rows, cols, 3); % Initialize an empty RGB image for red
-red_image(:, :, 1) = min(output_image_red * scaling_factor, 255); % Red channel
+
 
 % Step 10: Create a figure with 9 subplots (3 rows x 3 columns)
 
-
-
+% Step 10: Create a figure with 9 subplots (3 rows x 3 columns)
 
 % Subplot 2: Filtered Blue Channel
 subplot(3, 3, 2);
-imshow(filtered_image_blue);
+imshow(filtered_image_blue, []);
 title('Filtered Blue Channel');
 
 % Subplot 3: Edge-Detected Blue Channel (Teal)
+teal_image = zeros(rows, cols, 3, 'uint8'); % Create teal-colored RGB image
+teal_image(:, :, 2) = uint8(min(output_image_blue * 1.5, 255)); % Green channel
+teal_image(:, :, 3) = uint8(min(output_image_blue * 1.5, 255)); % Blue channel
 subplot(3, 3, 3);
 imshow(teal_image);
 title('Edge-Detected Blue Channel (Teal)');
 
-
-
 % Subplot 5: Filtered Green Channel
 subplot(3, 3, 5);
-imshow(filtered_image_green);
+imshow(filtered_image_green, []);
 title('Filtered Green Channel');
 
 % Subplot 6: Edge-Detected Green Channel
+green_image = zeros(rows, cols, 3, 'uint8'); % Create green-colored RGB image
+green_image(:, :, 2) = uint8(min(output_image_green * 1.5, 255)); % Green channel
 subplot(3, 3, 6);
 imshow(green_image);
 title('Edge-Detected Green Channel');
 
-
 % Subplot 8: Filtered Red Channel
 subplot(3, 3, 8);
-imshow(filtered_image_red);
+imshow(filtered_image_red, []);
 title('Filtered Red Channel');
 
 % Subplot 9: Edge-Detected Red Channel
+red_image = zeros(rows, cols, 3, 'uint8'); % Create red-colored RGB image
+red_image(:, :, 1) = uint8(min(output_image_red * 1.5, 255)); % Red channel
 subplot(3, 3, 9);
 imshow(red_image);
 title('Edge-Detected Red Channel');
+
+figure;
+% Display the reverted RGB image
+imshow(uint8(reverted_rgb_image));
+title('Reverted RGB Image');
