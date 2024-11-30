@@ -120,7 +120,7 @@ teal_image(:, :, 2) = uint8(min(output_image_blue * 1.5, 255)); % Green channel
 teal_image(:, :, 3) = uint8(min(output_image_blue * 1.5, 255)); % Blue channel
 subplot(3, 3, 3);
 imshow(teal_image);
-title('Edge-Detected Blue Channel (Teal)');
+title('Edge-Detected Blue Channel');
 
 % Subplot 5: Filtered Green Channel
 subplot(3, 3, 5);
@@ -146,11 +146,8 @@ subplot(3, 3, 9);
 imshow(red_image);
 title('Edge-Detected Red Channel');
 
-<<<<<<< HEAD
 figure;
 % Display the reverted RGB image
 imshow(uint8(reverted_rgb_image));
 title('Reverted RGB Image');
-=======
 end
->>>>>>> 11a359eb3ea7d32871f93fc45cc312be5ddf1096
