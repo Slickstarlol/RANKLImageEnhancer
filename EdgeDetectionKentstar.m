@@ -1,4 +1,4 @@
-function EdgeDetectionKentstar(blue, green, red)
+function EdgeDetectionKentstar(blue, green, red, blueEx, greenEx, redEx)
 
 figure;
 
@@ -7,16 +7,21 @@ input_image_blue = imread(blue);
 input_image_green = imread(green);
 input_image_red = imread(red);
 
+
+input_image_blue_ex = imread(blueEx);
+input_image_green_ex = imread(greenEx);
+input_image_red_ex = imread(redEx);
+
 % Display the original images
-subplot(3, 4, 1);
+subplot(3, 6, 1);
 imshow(input_image_blue);
 title('Original Blue Channel');
 
-subplot(3, 4, 5);
+subplot(3, 6, 7);
 imshow(input_image_green);
 title('Original Green Channel');
 
-subplot(3, 4, 9);
+subplot(3, 6, 13);
 imshow(input_image_red);
 title('Original Red Channel');
 
@@ -67,45 +72,78 @@ recolored_blue = recolor_edges(output_image_blue, input_image_blue);
 recolored_green = recolor_edges(output_image_green, input_image_green);
 recolored_red = recolor_edges(output_image_red, input_image_red);
 
+recolored_blue_ex = recolor_edges_uniform(output_image_blue, input_image_blue_ex);
+recolored_green_ex = recolor_edges_uniform(output_image_green, input_image_green_ex);
+recolored_red_ex = recolor_edges_uniform(output_image_red, input_image_red_ex);
+
+
+
 % Step 9: Display results for each channel in 4 columns
 % Blue Channel
-subplot(3, 4, 2);
+subplot(3, 6, 2);
 imshow(filtered_image_blue, []);
 title('Filtered Blue Channel');
 
-subplot(3, 4, 3);
+subplot(3, 6, 3);
 imshow(teal_image, []);
-title('Edge-Detected Blue (Grayscale)');
+title('Edge-Detected Blue (Our Color)');
 
-subplot(3, 4, 4);
+subplot(3, 6, 4);
 imshow(recolored_blue);
 title('Edge-Detected Blue (Recolored)');
 
+subplot(3, 6, 5);
+imshow(recolored_blue_ex);
+title('Edge-Detected Blue (Expected Color)');
+
+subplot(3, 6, 6);
+imshow(input_image_blue_ex);
+title('Standard Image');
+
 % Green Channel
-subplot(3, 4, 6);
+subplot(3, 6, 8);
 imshow(filtered_image_green, []);
 title('Filtered Green Channel');
 
-subplot(3, 4, 7);
+subplot(3, 6, 9);
 imshow(green_image, []);
-title('Edge-Detected Green (Grayscale)');
+title('Edge-Detected Green (Our Color)');
 
-subplot(3, 4, 8);
+subplot(3, 6, 10);
 imshow(recolored_green);
 title('Edge-Detected Green (Recolored)');
 
+subplot(3, 6, 11);
+imshow(recolored_green_ex);
+title('Edge-Detected Green (Expected Color)');
+
+
+subplot(3, 6, 12);
+imshow(input_image_green_ex);
+title('Standard Image');
+
 % Red Channel
-subplot(3, 4, 10);
+subplot(3, 6, 14);
 imshow(filtered_image_red, []);
 title('Filtered Red Channel');
 
-subplot(3, 4, 11);
+subplot(3, 6, 15);
 imshow(red_image, []);
-title('Edge-Detected Red (Grayscale)');
+title('Edge-Detected Red (Our Color)');
 
-subplot(3, 4, 12);
+subplot(3, 6, 16);
 imshow(recolored_red);
 title('Edge-Detected Red (Recolored)');
+
+
+subplot(3, 6, 17);
+imshow(recolored_red_ex);
+title('Edge-Detected Red (Expected Color)');
+
+
+subplot(3, 6, 18);
+imshow(input_image_red_ex);
+title('Standard Image');
 
 end
 
@@ -150,3 +188,23 @@ function recolored_image = recolor_edges(grayscale_image, original_image)
     % Scale back to [0, 255] and convert to uint8
     recolored_image = uint8(recolored_image * 255);
 end
+
+% Helper Function: Recolor Edges with Uniform Saturation
+function recolored_image = recolor_edges_uniform(grayscale_image, ex_image)
+    % Threshold grayscale image to create a binary mask
+    binary_mask = grayscale_image > 0;
+
+    % Separate the ex_image RGB channels
+    red_channel = ex_image(:, :, 1);
+    green_channel = ex_image(:, :, 2);
+    blue_channel = ex_image(:, :, 3);
+
+    % Apply the binary mask to recolor with a uniform color
+    recolored_red = uint8(binary_mask) .* red_channel;
+    recolored_green = uint8(binary_mask) .* green_channel;
+    recolored_blue = uint8(binary_mask) .* blue_channel;
+
+    % Combine back into an RGB image
+    recolored_image = cat(3, recolored_red, recolored_green, recolored_blue);
+end
+
