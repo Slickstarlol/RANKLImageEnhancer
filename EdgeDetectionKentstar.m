@@ -145,6 +145,33 @@ subplot(3, 6, 18);
 imshow(input_image_red_ex);
 title('Standard Image');
 
+% Combine Column 3: Edge-Detected (Our Color)
+merged_3 = cat(3, red_image(:, :, 1), green_image(:, :, 2), teal_image(:, :, 3));
+% Combine Column 4: Recolored
+merged_4 = cat(3, recolored_red(:, :, 1), recolored_green(:, :, 2), recolored_blue(:, :, 3));
+% Combine Column 5: Expected Recoloring
+merged_5 = cat(3, recolored_red_ex(:, :, 1), recolored_green_ex(:, :, 2), recolored_blue_ex(:, :, 3));
+% Combine Column 6: Standard
+merged_6 = cat(3, input_image_red_ex(:, :, 1), input_image_green_ex(:, :, 2), input_image_blue_ex(:, :, 3));
+
+% Create a new figure to display the combined columns
+figure;
+subplot(1, 4, 1);
+imshow(merged_3);
+title('Our Color');
+
+subplot(1, 4, 2);
+imshow(merged_4);
+title('Recolored');
+
+subplot(1, 4, 3);
+imshow(merged_5);
+title('Expected Color');
+
+subplot(1, 4, 4);
+imshow(merged_6);
+title('Standard Image');
+
 end
 
 % Helper Function: Apply Edge Detection
@@ -207,4 +234,3 @@ function recolored_image = recolor_edges_uniform(grayscale_image, ex_image)
     % Combine back into an RGB image
     recolored_image = cat(3, recolored_red, recolored_green, recolored_blue);
 end
-
