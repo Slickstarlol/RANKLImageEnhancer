@@ -31,7 +31,7 @@ This MATLAB script, `EdgeDetectionKentstar`, is designed to perform edge detecti
 ## Usage
 
 ### Organize Your Test Folder
-1. Create a folder named `Test Folder`.
+1. Create a folder named `main`.
 2. Save the observed TIFF files (color-coded) with the following exact names:
    - `BLUECHANNEL.tif` (Observed Blue Channel)
    - `GREENCHANNEL.tif` (Observed Green Channel)
@@ -41,11 +41,11 @@ This MATLAB script, `EdgeDetectionKentstar`, is designed to perform edge detecti
    - `EXGREENCHANNEL.tif` (Expected Green Channel)
    - `EXREDCHANNEL.tif` (Expected Red Channel)
 
-4. Place all these files into the `Test Folder`.
+4. Place all these files into the `main`.
 
 ### Run the Script in MATLAB
 1. Open MATLAB.
-2. Navigate to the `Test Folder` using the file browser or the `cd` command.  
+2. Navigate to the `main` using the file browser or the `cd` command.  
    Example: 
    ```matlab
    cd('path_to_Test_Folder')
